@@ -34,6 +34,7 @@ export default function Root() {
 
   return (
     <>
+
       <div id="sidebar">
         <h1>InsightFeed</h1>
         <div>
@@ -54,14 +55,17 @@ export default function Root() {
                 });
               }}
             />
-            <div id="search-spinner" aria-hidden  hidden={!searching} />
+            <div id="search-spinner" aria-hidden hidden={!searching} />
             <div className="sr-only" aria-live="polite"></div>
           </Form>
           <Form method="post">
-            <button type="submit">New</button>
+            <button type="submit">Feed<span style={{
+              position: 'absolute',
+              right: 3,
+              bottom: 20
+            }}>+</span></button>
           </Form>
         </div>
-
         <nav>
           {contacts.length ? (
             <ul>
@@ -96,6 +100,21 @@ export default function Root() {
           )}
         </nav>
       </div>
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+      }}>
+      <div id="navbar">
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/">Entertainment</Link></li>
+            <li><Link to="/">Technology</Link></li>
+            <li><Link to="/">Business</Link></li>
+          </ul>
+        </nav>
+      </div>
       <div
         id="detail"
         className={
@@ -103,6 +122,7 @@ export default function Root() {
         }
       >
         <Outlet />
+      </div>
       </div>
     </>
   );

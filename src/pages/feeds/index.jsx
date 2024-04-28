@@ -22,16 +22,20 @@ export function FeedIndex({ data, loading, getFeeds }) {
 
   return (
     <Container fluid>
-      <Row>
+      <Row xs="1" sm="2" md="3" lg="4">
         {filteredData.map((article, index) => (
-          <Col sm="6" md="4" lg="3" key={index}>
+          <Col key={index}>
             <Card className="my-3">
-              <CardImg top width="100%" src={article.urlToImage || defaultImageUrl} alt={article.title} />
-              <CardBody className="card-body">
-                <CardTitle tag="h5">{article.title}</CardTitle>
-                <CardSubtitle tag="h6" className="mb-2 text-muted">{article.source.name}</CardSubtitle>
-                <CardText className="card-text">{article.description}</CardText>
-                <a href={article.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Read More</a>
+              <CardImg top src={article.urlToImage || defaultImageUrl} alt={article.title} style={{ height: "200px" }} />
+              <CardBody className="card-body d-flex flex-column">
+                <div>
+                  <CardTitle tag="h5" className='card-title'>{article.title}</CardTitle>
+                  <CardSubtitle tag="h6" className="mb-2 text-muted">{article.source.name}</CardSubtitle>
+                  <CardText className="card-text">{article.description}</CardText>
+                </div>
+                <div className="mt-auto">
+                  <a href={article.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Read More</a>
+                </div>
               </CardBody>
             </Card>
           </Col>

@@ -124,6 +124,10 @@ export default function Root() {
         </div>
         <div
           id="detail"
+          style={{
+            overflow:'auto',
+            height:'100vh'
+          }}
         >
           <Outlet />
         </div>

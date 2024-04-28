@@ -1,0 +1,1 @@
+export const defaultImageUrl = 'https://media.istockphoto.com/id/1309699912/vector/vector-illustration-daily-news-paper-template-with-text-and-picture-placeholder.jpg?s=170667a&w=0&k=20&c=v3jfXM3nN9rRb0OXRUejdPecLTVV37pqe8ub84r7Ti8=';

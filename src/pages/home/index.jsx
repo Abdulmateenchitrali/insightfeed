@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 
 export function DashBoardIndex({data,loading,getFeeds}) {
 

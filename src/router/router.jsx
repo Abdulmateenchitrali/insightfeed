@@ -6,8 +6,8 @@ import Root from "../routes/root";
 
 
 
-import FeedIndex from "../pages/feeds";
 import DashBoardIndexContainer from "../pages/home";
+import FeedIndexContainer from "../pages/feeds";
 
 
 
@@ -19,7 +19,7 @@ function Routers(){
           <Route index element={<DashBoardIndexContainer />} />
           <Route
             path="feed/:feedId"
-            element={<FeedIndex />}
+            element={<FeedIndexContainer />}
           />
         </Route>
       </Routes>

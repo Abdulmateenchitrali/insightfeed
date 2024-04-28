@@ -1,6 +1,5 @@
-import { Form, Link, NavLink, Outlet, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { getContacts, createContact } from "../contact";
-import { useEffect, useState } from "react";
 
 
 export async function loader({ request }) {
@@ -16,35 +15,30 @@ export async function action() {
 }
 
 const personalizedNewsFeeds = [
-  { id: 1, label: "Daily Digest", value: "daily_digest" },
-  { id: 2, label: "Trending Topics", value: "trending_topics" },
-  { id: 3, label: "Tech Updates", value: "tech_updates" },
-  { id: 4, label: "Entertainment Buzz", value: "entertainment_buzz" },
-  { id: 5, label: "Business Insider", value: "business_insider" },
-  { id: 6, label: "Health Highlights", value: "health_highlights" },
-  { id: 7, label: "Science Scoop", value: "science_scoop" },
-  { id: 8, label: "Sports Spotlight", value: "sports_spotlight" },
-  { id: 9, label: "Lifestyle Trends", value: "lifestyle_trends" },
-  { id: 10, label: "World News Roundup", value: "world_news_roundup" },
-  { id: 11, label: "Fashion Focus", value: "fashion_focus" },
-  { id: 12, label: "Foodie Finds", value: "foodie_finds" },
-  { id: 13, label: "Travel Tales", value: "travel_tales" },
-  { id: 14, label: "Art Adventures", value: "art_adventures" },
-  { id: 15, label: "Music Mania", value: "music_mania" },
-  { id: 16, label: "Automotive Updates", value: "automotive_updates" },
-  { id: 17, label: "Home & Garden Guide", value: "home_and_garden_guide" },
-  { id: 18, label: "Pet Palooza", value: "pet_palooza" },
-  { id: 19, label: "Finance Focus", value: "finance_focus" },
-  { id: 20, label: "Politics Pulse", value: "politics_pulse" }
+  { id: 1, label: "Daily Digest", value: "daily-digest" },
+  { id: 2, label: "Trending Topics", value: "trending-topics" },
+  { id: 3, label: "Tech Updates", value: "tech-updates" },
+  { id: 4, label: "Entertainment Buzz", value: "entertainment-buzz" },
+  { id: 5, label: "Business Insider", value: "business-insider" },
+  { id: 6, label: "Health Highlights", value: "health-highlights" },
+  { id: 7, label: "Science Scoop", value: "science-scoop" },
+  { id: 8, label: "Sports Spotlight", value: "sports-spotlight" },
+  { id: 9, label: "Lifestyle Trends", value: "lifestyle-trends" },
+  { id: 10, label: "World News Roundup", value: "world-news-roundup" },
+  { id: 11, label: "Fashion Focus", value: "fashion-focus" },
+  { id: 12, label: "Foodie Finds", value: "foodie-finds" },
+  { id: 13, label: "Travel Tales", value: "travel-tales" },
+  { id: 14, label: "Art Adventures", value: "art-adventures" },
+  { id: 15, label: "Music Mania", value: "music-mania" },
+  { id: 16, label: "Automotive Updates", value: "automotive-updates" },
+  { id: 17, label: "Home & Garden Guide", value: "home-and-garden-guide" },
+  { id: 18, label: "Pet Palooza", value: "pet-palooza" },
+  { id: 19, label: "Finance Focus", value: "finance-focus" },
+  { id: 20, label: "Politics Pulse", value: "politics-pulse" }
 ];
 
 
 export default function Root() {
-
-  const navigation = useNavigation();
-
-
-
 
   return (
     <>
@@ -60,14 +54,14 @@ export default function Root() {
                 justifyContent: "space-between",
                 alignItems: "center",
               }}>
-              <h4>Personalized news feeds</h4>
-              <button type="submit" style={{
-                position: "relative",
-              }}>Feed<span style={{
-                position: 'absolute',
-                right: 3,
-                bottom: 20
-              }}>+</span></button>
+                <h4>Personalized feeds</h4>
+                <button type="submit" style={{
+                  position: "relative",
+                }}>Feed<span style={{
+                  position: 'absolute',
+                  right: 3,
+                  bottom: 20
+                }}>+</span></button>
               </div>
               {personalizedNewsFeeds.map((feed) => (
                 <li key={feed?.id} style={{
@@ -77,7 +71,7 @@ export default function Root() {
                   gap: 10
                 }}>
                   <NavLink
-                    to={`feeds/${feed?.id}`}
+                    to={`feed/${feed?.value}`}
                     className={({ isActive, isPending }) =>
                       isActive
                         ? "active"
@@ -122,17 +116,14 @@ export default function Root() {
           <nav>
             <ul>
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/">Entertainment</Link></li>
-              <li><Link to="/">Technology</Link></li>
-              <li><Link to="/">Business</Link></li>
+              <li><Link to="/feed/entertainment">Entertainment</Link></li>
+              <li><Link to="/feed/tech">Technology</Link></li>
+              <li><Link to="/feed/bussiness">Business</Link></li>
             </ul>
           </nav>
         </div>
         <div
           id="detail"
-          className={
-            navigation.state === "loading" ? "loading" : ""
-          }
         >
           <Outlet />
         </div>

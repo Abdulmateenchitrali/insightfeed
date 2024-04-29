@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardText, CardSubtitle, Container, Row, Col } from 'reactstrap';
 import '../feeds/FeedIndex.css'; 
+import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 
 export function DashboradIndex({ data, loading, getFeeds }) {
   const { feedId } = useParams();
+  const initialData = feedId || "world";
+  console.log("🚀 ~ DashboradIndex ~ initialData:", initialData)
 
   useEffect(() => {
-    getFeeds({feedId});
-  }, [feedId]);
+    getFeeds({initialData});
+  }, [initialData]);
 
   if (loading) {
     return <p>Loading...</p>;

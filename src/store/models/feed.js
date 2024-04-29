@@ -24,9 +24,7 @@ const feed = {
   },
   effects: (dispatch) => ({
     async getFeeds(filters) {
-      console.log("🚀 ~ getFeeds ~ filters:", filters)
-      let updateFilters = {q:filters?.feedId}
-      const query = buildQuery(updateFilters);
+      const query = buildQuery(filters);
       console.log("🚀 ~ getFeeds ~ query:", query)
       const { data } = await requests.getCentral(`everything${query}`);
       

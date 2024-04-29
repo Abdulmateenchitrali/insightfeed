@@ -8,7 +8,7 @@ export function FeedIndex({ data, loading, getFeeds }) {
   const { feedId } = useParams();
 
   useEffect(() => {
-    getFeeds({feedId});
+    getFeeds({q:feedId});
   }, [feedId]);
 
   if (loading) {

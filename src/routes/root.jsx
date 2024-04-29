@@ -1,69 +1,71 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { getContacts, createContact } from "../contact";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link, NavLink, Outlet } from 'react-router-dom';
+import { motion } from 'framer-motion'; // Import motion for animation
 
+export function Root({
+  data,
+  loading,
+  setPersonalizedFeedState
+}) {
+  const [showModal, setShowModal] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-export async function loader({ request }) {
-  const url = new URL(request.url);
-  const q = url.searchParams.get("q") || "";
-  const contacts = await getContacts(q);
-  return { contacts, q };
-}
+  const addRssFeed = () => {
+    setShowModal(true);
+  }
 
-export async function action() {
-  const contact = await createContact();
-  return { contact };
-}
+  const handleCloseModal = () => {
+    setShowModal(false);
+  }
 
-const personalizedNewsFeeds = [
-  { id: 1, label: "Daily Digest", value: "daily-digest" },
-  { id: 2, label: "Trending Topics", value: "trending-topics" },
-  { id: 3, label: "Tech Updates", value: "tech-updates" },
-  { id: 4, label: "Entertainment Buzz", value: "entertainment-buzz" },
-  { id: 5, label: "Business Insider", value: "business-insider" },
-  { id: 6, label: "Health Highlights", value: "health-highlights" },
-  { id: 7, label: "Science Scoop", value: "science-scoop" },
-  { id: 8, label: "Sports Spotlight", value: "sports-spotlight" },
-  { id: 9, label: "Lifestyle Trends", value: "lifestyle-trends" },
-  { id: 10, label: "World News Roundup", value: "world-news-roundup" },
-  { id: 11, label: "Fashion Focus", value: "fashion-focus" },
-  { id: 12, label: "Foodie Finds", value: "foodie-finds" },
-  { id: 13, label: "Travel Tales", value: "travel-tales" },
-  { id: 14, label: "Art Adventures", value: "art-adventures" },
-  { id: 15, label: "Music Mania", value: "music-mania" },
-  { id: 16, label: "Automotive Updates", value: "automotive-updates" },
-  { id: 17, label: "Home & Garden Guide", value: "home-and-garden-guide" },
-  { id: 18, label: "Pet Palooza", value: "pet-palooza" },
-  { id: 19, label: "Finance Focus", value: "finance-focus" },
-  { id: 20, label: "Politics Pulse", value: "politics-pulse" }
-];
-
-
-export default function Root() {
+  const handleAddFeed = () => {
+    const id = Date.now(); // Generate a unique id
+    const value = inputValue.toLowerCase().replace(/\s+/g, '-'); // Convert input value to lowercase and replace spaces with dashes
+    setPersonalizedFeedState({ id, label: inputValue, value });
+    setShowModal(false);
+    setInputValue(''); // Clear input value after adding feed
+  }
 
   return (
     <>
-
       <div id="sidebar">
         <h1>InsightFeed</h1>
         <nav>
-          {personalizedNewsFeeds.length ? (
-            <ul>
-              <div style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}>
-                <h4>Personalized feeds</h4>
-                <button type="submit" style={{
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            columnGap: 5,
+            paddingBottom: 10
+          }}>
+            <div>
+              <h5>RSS feeds</h5>
+            </div>
+            <div>
+              <motion.button
+                onClick={addRssFeed}
+                type="submit"
+                style={{
                   position: "relative",
-                }}>Feed<span style={{
+                }}
+                disabled={loading}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                Feed
+                <span style={{
                   position: 'absolute',
                   right: 3,
                   bottom: 20
-                }}>+</span></button>
-              </div>
-              {personalizedNewsFeeds.map((feed) => (
+                }}>+</span>
+              </motion.button>
+            </div>
+          </div>
+          {data.length ? (
+            <ul>
+              {data.map((feed) => (
                 <li key={feed?.id} style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -81,7 +83,7 @@ export default function Root() {
                     }
                     style={{
                       display: "flex",
-                      flex: 1
+                      flex: 2
                     }}
                   >
                     {feed.label ? (
@@ -102,7 +104,7 @@ export default function Root() {
             </ul>
           ) : (
             <p>
-              <i>No contacts</i>
+              <i>No Feeds</i>
             </p>
           )}
         </nav>
@@ -118,20 +120,57 @@ export default function Root() {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/feed/entertainment">Entertainment</Link></li>
               <li><Link to="/feed/tech">Technology</Link></li>
-              <li><Link to="/feed/bussiness">Business</Link></li>
+              <li><Link to="/feed/business">Business</Link></li>
             </ul>
           </nav>
         </div>
         <div
           id="detail"
           style={{
-            overflow:'auto',
-            height:'100vh'
+            overflow: 'auto',
+            height: '100vh'
           }}
         >
           <Outlet />
         </div>
       </div>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={handleCloseModal}>&times;</span>
+            <h2>Add RSS Feed</h2>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Enter feed name"
+            />
+            <div style={{
+              marginTop: 10,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+
+            }}>
+              <button onClick={handleAddFeed}>Add</button>
+              <button style={{marginLeft:10}} onClick={handleCloseModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
+
+const mapState = (state) => ({
+  data: state.personalizedFeed.personalizedFeeds,
+  loading: state.loading.effects.personalizedFeed.setPersonalizedFeedState,
+});
+
+const mapDispatch = (dispatch) => ({
+  setPersonalizedFeedState: (payload) => dispatch.personalizedFeed.setPersonalizedFeedState(payload),
+});
+
+const RootContainer = connect(mapState, mapDispatch)(Root);
+export default RootContainer;
